@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyt6bio2kqpsd"]
+
+[ext_resource type="Texture2D" uid="uid://b0fflcs1xmtcr" path="res://Assets/Sprites/vase.png" id="1_ah8b8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pdefl"]
+size = Vector2(64, 58)
+
+[node name="Vase" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -29)
+texture = ExtResource("1_ah8b8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -29)
+shape = SubResource("RectangleShape2D_pdefl")
+
+[node name="Root" type="Node2D" parent="."]
+position = Vector2(0, -58)
