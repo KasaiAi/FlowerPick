@@ -9,6 +9,7 @@ size = Vector2(52, 58)
 
 [node name="Vase" type="Area2D"]
 script = ExtResource("1_f5i5j")
+owned = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -29)
@@ -32,6 +33,3 @@ wait_time = 5.0
 [node name="WitherTimer" type="Timer" parent="."]
 wait_time = 15.0
 one_shot = true
-
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="input_event" from="." to="." method="_on_input_event"]
