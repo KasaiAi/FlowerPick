@@ -4,7 +4,7 @@ extends Node2D
 var occupied = false
 var rememberSeed
 
-signal planted
+signal planted(seed)
 
 func _ready():
 	visible = owned
@@ -27,13 +27,12 @@ func have_seed(seed):
 func _on_input_event(_viewport, _event, _shape_idx):
 	if Input.is_action_just_released("click"):
 		if not occupied and have_seed(rememberSeed):
-			emit_signal("planted")
+			emit_signal("planted", rememberSeed)
 			occupied = true
 			$Occupied.visible = true
 			print ("Está plantada a margarida")
 		else:
 			print("não plantou")
-
 
 #if release click on collision:
 #	if not occupied and seeds<0:
@@ -43,5 +42,4 @@ func _on_input_event(_viewport, _event, _shape_idx):
 #	else:
 #		print("não plantou")
 
-#send a signal to the shop to execute function
-#check seed amount, check occupation, plant and subtract seed
+

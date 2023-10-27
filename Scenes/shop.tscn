@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dd1hg4chbhc65"]
+[gd_scene load_steps=7 format=3 uid="uid://dd1hg4chbhc65"]
 
 [ext_resource type="Script" path="res://Scripts/shop.gd" id="1_567u1"]
 [ext_resource type="Texture2D" uid="uid://b4vnyudv214fs" path="res://Assets/Sprites/background.jpg" id="2_pho0c"]
 [ext_resource type="PackedScene" uid="uid://bvhtrc0fq887a" path="res://Objects/vase.tscn" id="3_2lqud"]
 [ext_resource type="PackedScene" uid="uid://caueefsbd4o05" path="res://Objects/seed.tscn" id="4_h3qfo"]
+[ext_resource type="Texture2D" uid="uid://bfnoekuoif22b" path="res://Assets/Sprites/seed2.png" id="5_akkyg"]
+[ext_resource type="Texture2D" uid="uid://ba34fkcw0d110" path="res://Assets/Sprites/seed3.png" id="6_gdnwy"]
 
 [node name="Shop" type="Node2D"]
 script = ExtResource("1_567u1")
@@ -75,3 +77,21 @@ owned = false
 [node name="Seed1" parent="." instance=ExtResource("4_h3qfo")]
 position = Vector2(50, 570)
 amount = 3
+
+[node name="Seed2" parent="." instance=ExtResource("4_h3qfo")]
+position = Vector2(150, 570)
+amount = 3
+
+[node name="Sprite2D" parent="Seed2/StaticBody2D" index="0"]
+texture = ExtResource("5_akkyg")
+
+[node name="Seed3" parent="." instance=ExtResource("4_h3qfo")]
+position = Vector2(250, 570)
+amount = 3
+
+[node name="Sprite2D" parent="Seed3/StaticBody2D" index="0"]
+texture = ExtResource("6_gdnwy")
+
+[editable path="Seed1"]
+[editable path="Seed2"]
+[editable path="Seed3"]

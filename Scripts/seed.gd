@@ -4,8 +4,10 @@ var dragging
 @export var amount = 0
 @onready var initial_position = position
 
+@export_flags("Fire", "Water", "Earth", "Wind") var spell_elements = 0
+
+
 #Variável pra determinar o sprite de cada semente
-#não plantar quando tiver 0
 
 func _ready():
 #	connect("planted", _on_planted)
@@ -27,15 +29,7 @@ func _on_static_body_2d_input_event(_viewport, _event, _shape_idx):
 		position = initial_position
 		dragging = false
 
-#
 #func _on_planted():
 #	if amount>0:
 #		amount-=1
 #		$Control/Label.text = str(amount)
-#		print(amount)
-#
-#func checkSeedAmount():
-#	if amount>0:
-#		return true
-#	else:
-#		return false
