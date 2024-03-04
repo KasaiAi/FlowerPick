@@ -1,22 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://caueefsbd4o05"]
+[gd_scene load_steps=5 format=3 uid="uid://b3oni7mwmfd75"]
 
-[ext_resource type="Texture2D" uid="uid://e51u6sdh8s7a" path="res://Assets/Sprites/seed1.png" id="1_34mam"]
-[ext_resource type="Script" path="res://Scripts/seed.gd" id="1_45mb3"]
+[ext_resource type="Script" path="res://Scripts/seed.gd" id="1_yb216"]
+[ext_resource type="Texture2D" uid="uid://b4y7m13ldw1uo" path="res://Assets/Sprites/water.png" id="2_ii0a6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_irbqc"]
+size = Vector2(52, 52)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3v5y3"]
 size = Vector2(40, 52)
 
-[node name="Seed" type="Node2D" groups=["seeds"]]
-script = ExtResource("1_45mb3")
+[node name="Water" type="Node2D" groups=["water"]]
+script = ExtResource("1_yb216")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 input_pickable = true
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
-texture = ExtResource("1_34mam")
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_ii0a6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("RectangleShape2D_3v5y3")
+shape = SubResource("RectangleShape2D_irbqc")
 
 [node name="Area2D" type="Area2D" parent="."]
 visible = false

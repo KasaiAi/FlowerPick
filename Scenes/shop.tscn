@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dd1hg4chbhc65"]
+[gd_scene load_steps=8 format=3 uid="uid://dd1hg4chbhc65"]
 
 [ext_resource type="Script" path="res://Scripts/shop.gd" id="1_567u1"]
 [ext_resource type="Texture2D" uid="uid://b4vnyudv214fs" path="res://Assets/Sprites/background.jpg" id="2_pho0c"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://caueefsbd4o05" path="res://Objects/seed.tscn" id="4_h3qfo"]
 [ext_resource type="Texture2D" uid="uid://bfnoekuoif22b" path="res://Assets/Sprites/seed2.png" id="5_akkyg"]
 [ext_resource type="Texture2D" uid="uid://ba34fkcw0d110" path="res://Assets/Sprites/seed3.png" id="6_gdnwy"]
+[ext_resource type="PackedScene" uid="uid://b3oni7mwmfd75" path="res://Objects/water.tscn" id="7_23q15"]
 
 [node name="Shop" type="Node2D"]
 script = ExtResource("1_567u1")
@@ -24,15 +25,19 @@ position = Vector2(50, 170)
 
 [node name="Vase2" parent="Vases" instance=ExtResource("3_2lqud")]
 position = Vector2(100, 0)
+owned = false
 
 [node name="Vase3" parent="Vases" instance=ExtResource("3_2lqud")]
 position = Vector2(200, 0)
+owned = false
 
 [node name="Vase4" parent="Vases" instance=ExtResource("3_2lqud")]
 position = Vector2(300, 0)
+owned = false
 
 [node name="Vase5" parent="Vases" instance=ExtResource("3_2lqud")]
 position = Vector2(400, 0)
+owned = false
 
 [node name="Vase6" parent="Vases" instance=ExtResource("3_2lqud")]
 position = Vector2(0, 163)
@@ -91,6 +96,9 @@ amount = 3
 
 [node name="Sprite2D" parent="Seed3/StaticBody2D" index="0"]
 texture = ExtResource("6_gdnwy")
+
+[node name="Water" parent="." instance=ExtResource("7_23q15")]
+position = Vector2(448, 569)
 
 [editable path="Seed1"]
 [editable path="Seed2"]
