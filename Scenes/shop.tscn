@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://dd1hg4chbhc65"]
 
 [ext_resource type="Script" path="res://Scripts/shop.gd" id="1_567u1"]
-[ext_resource type="Texture2D" uid="uid://b4vnyudv214fs" path="res://Assets/Sprites/background.jpg" id="2_pho0c"]
+[ext_resource type="Texture2D" uid="uid://2eu77dprsfvu" path="res://Assets/Sprites/background.jpg" id="2_pho0c"]
 [ext_resource type="PackedScene" uid="uid://bvhtrc0fq887a" path="res://Objects/vase.tscn" id="3_2lqud"]
 [ext_resource type="PackedScene" uid="uid://caueefsbd4o05" path="res://Objects/seed.tscn" id="4_h3qfo"]
-[ext_resource type="Texture2D" uid="uid://bfnoekuoif22b" path="res://Assets/Sprites/seed2.png" id="5_akkyg"]
-[ext_resource type="Texture2D" uid="uid://ba34fkcw0d110" path="res://Assets/Sprites/seed3.png" id="6_gdnwy"]
+[ext_resource type="Texture2D" uid="uid://ber2slhehcn5k" path="res://Assets/Sprites/seed2.png" id="5_akkyg"]
+[ext_resource type="Texture2D" uid="uid://co77mj53tbaan" path="res://Assets/Sprites/seed3.png" id="6_gdnwy"]
 [ext_resource type="PackedScene" uid="uid://b3oni7mwmfd75" path="res://Objects/water.tscn" id="7_23q15"]
 
 [node name="Shop" type="Node2D"]
@@ -98,7 +98,8 @@ amount = 3
 texture = ExtResource("6_gdnwy")
 
 [node name="Water" parent="." instance=ExtResource("7_23q15")]
-position = Vector2(448, 569)
+position = Vector2(448, 580)
+amount = 1
 
 [editable path="Seed1"]
 [editable path="Seed2"]
