@@ -6,8 +6,8 @@ var dragging
 
 #@export_flags("Fire", "Water", "Earth", "Wind") var spell_elements = 0
 
-
 #Variável pra determinar o sprite de cada semente (seedType)
+#Variável pra determinar o tempo de crescimento de cada semente (fully_grown)
 
 func _ready():
 #	connect("planted", _on_planted)

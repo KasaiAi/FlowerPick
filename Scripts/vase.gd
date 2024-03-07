@@ -2,12 +2,12 @@ extends Node2D
 
 @export var owned = true
 var occupied = false
-var isHolding
+var isHolding = self
 
 var water = 0
 var growth = 0
 
-var grows = false
+@export var fully_grown = 20
 
 signal planted(seed)
 
@@ -17,33 +17,25 @@ func _ready():
 
 
 func _process(_delta):
-	if occupied and water > 0:
+	#checa se o vaso está plantado e regado e faz a flor crescer
+	if occupied and water > 0 and growth < fully_grown:
 		growing()
+	elif growth < fully_grown and fully_grown - growth < 0.01:
+		growth = fully_grown
+		water += 0.01
 	
-	if water <= 0:
-		$GrowthCycle.set_paused(true)
-	else:
-		$GrowthCycle.set_paused(false)
-	
-	$growth.value = growth
-	$water.value = water
+	$growthMeter.value = growth
+	$waterMeter.value = water
 	
 	if visible:
+		print()
 		print("Water: ", water)
 		print("Growth: ", growth)
-		print($GrowthCycle.time_left)
-	
-	if growth > 5:
-		$Root/Growth1.visible = true
-	if growth > 10:
-		$Root/Growth2.visible = true
-	if growth > 15:
-		$Root/Growth3.visible = true
-	if growth > 20:
-		$Root/Growth4.visible = true
+
 
 func _on_area_entered(area):
 	#verifica qual semente está sendo plantada
+	#é melhor setar esse valor na loja quando o cursor segurar o objeto, emitir para o _on_area_entered() e anular em seguida
 	isHolding = area.get_parent()
 
 
@@ -60,32 +52,42 @@ func _on_input_event(_viewport, _event, _shape_idx):
 				emit_signal("planted", isHolding)
 				occupied = true
 				$Occupied.visible = true
-				print ("Está plantada a margarida")
-			else:
-				print("não plantou")
+				$growthMeter.max_value = fully_grown
+#				fully_grown = isHolding.fully_grown
 		if isHolding.is_in_group("water"):
+			#enche água
 			water = 10.00
-			print("Water: ", water)
-			print("Growth: ", growth)
+		isHolding = self
+	if Input.is_action_just_pressed("click"):
+		if growth >= fully_grown:
+#			harvest()
+			#colhe a flor e reseta o vaso
+			growth = 0
+			occupied = false
+			$Occupied.visible = false
+			$Root/Growth1.visible = false
+			$Root/Growth2.visible = false
+			$Root/Growth3.visible = false
+			$Root/Growth4.visible = false
+
 
 func growing():
-#	GrowthCycle
-#	se chegar no fim, aumenta um estágio de crescimento
-#		stage +1
-#		grows = false
-
-	if not grows:
-		$GrowthCycle.start(5)
-		grows = true
 	water -= 0.0166
 	growth += 0.0166
 
+	#placeholder de estágio de crescimento
+	#substituir por uma mudança de sprite em outro lugar
+	if growth >= fully_grown/4:
+		$Root/Growth1.visible = true
+	if growth >= fully_grown/2:
+		$Root/Growth2.visible = true
+	if growth >= fully_grown/4*3:
+		$Root/Growth3.visible = true
+	if growth >= fully_grown:
+		$Root/Growth4.visible = true
+
+#	if not grows:
+#		$GrowthCycle.start(5)
+#		grows = true
 
 #	state machine for growth stages
-#	timer to replace growing() function
-
-
-func _on_growth_cycle_timeout():
-#	growth_stage += 1
-#	grows = false
-	pass # Replace with function body.

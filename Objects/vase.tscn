@@ -11,6 +11,7 @@ size = Vector2(52, 58)
 
 [node name="Vase" type="Area2D"]
 script = ExtResource("1_f5i5j")
+fully_grown = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -29)
@@ -25,17 +26,16 @@ texture = ExtResource("3_elbus")
 position = Vector2(0, -29)
 shape = SubResource("RectangleShape2D_pdefl")
 
-[node name="growth" type="TextureProgressBar" parent="."]
+[node name="growthMeter" type="TextureProgressBar" parent="."]
 offset_left = -41.0
 offset_top = 1.0
 offset_right = 41.0
 offset_bottom = 9.0
-max_value = 20.0
 step = 0.5
 texture_progress = ExtResource("5_8qf6r")
 tint_progress = Color(0.686275, 0.960784, 0.145098, 1)
 
-[node name="water" type="TextureProgressBar" parent="."]
+[node name="waterMeter" type="TextureProgressBar" parent="."]
 offset_left = -41.0
 offset_top = 10.0
 offset_right = 41.0
@@ -70,6 +70,7 @@ texture = ExtResource("4_u44m3")
 
 [node name="GrowthCycle" type="Timer" parent="."]
 wait_time = 5.0
+one_shot = true
 
 [node name="WitherTimer" type="Timer" parent="."]
 wait_time = 15.0
@@ -77,4 +78,3 @@ one_shot = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="input_event" from="." to="." method="_on_input_event"]
-[connection signal="timeout" from="GrowthCycle" to="." method="_on_growth_cycle_timeout"]
