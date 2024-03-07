@@ -28,6 +28,7 @@ position = Vector2(100, 0)
 
 [node name="Vase3" parent="Vases" instance=ExtResource("3_2lqud")]
 position = Vector2(200, 0)
+owned = false
 
 [node name="Vase4" parent="Vases" instance=ExtResource("3_2lqud")]
 position = Vector2(300, 0)

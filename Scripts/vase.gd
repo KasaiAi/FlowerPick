@@ -21,8 +21,9 @@ func _process(_delta):
 	if occupied and water > 0 and growth < fully_grown:
 		growing()
 	elif growth < fully_grown and fully_grown - growth < 0.01:
-		growth = fully_grown
 		water += 0.01
+#		growth = fully_grown
+#		growing()
 	
 	$growthMeter.value = growth
 	$waterMeter.value = water
@@ -65,10 +66,8 @@ func _on_input_event(_viewport, _event, _shape_idx):
 			growth = 0
 			occupied = false
 			$Occupied.visible = false
-			$Root/Growth1.visible = false
-			$Root/Growth2.visible = false
-			$Root/Growth3.visible = false
-			$Root/Growth4.visible = false
+			for child in $Root.get_children():
+				child.visible = false
 
 
 func growing():
@@ -76,7 +75,7 @@ func growing():
 	growth += 0.0166
 
 	#placeholder de estágio de crescimento
-	#substituir por uma mudança de sprite em outro lugar
+	#substituir por uma mudança de sprite aqui e na colheita
 	if growth >= fully_grown/4:
 		$Root/Growth1.visible = true
 	if growth >= fully_grown/2:
@@ -89,5 +88,3 @@ func growing():
 #	if not grows:
 #		$GrowthCycle.start(5)
 #		grows = true
-
-#	state machine for growth stages
