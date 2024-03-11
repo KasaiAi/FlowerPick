@@ -1,0 +1,164 @@
+[gd_scene load_steps=8 format=3 uid="uid://dd1hg4chbhc65"]
+
+[ext_resource type="Script" path="res://Scripts/nursery.gd" id="1_i8st4"]
+[ext_resource type="Texture2D" uid="uid://2eu77dprsfvu" path="res://Assets/Sprites/background.jpg" id="2_r8xwg"]
+[ext_resource type="PackedScene" uid="uid://bvhtrc0fq887a" path="res://Objects/vase.tscn" id="3_x60f8"]
+[ext_resource type="PackedScene" uid="uid://caueefsbd4o05" path="res://Objects/seed.tscn" id="4_4y6w2"]
+[ext_resource type="Texture2D" uid="uid://ber2slhehcn5k" path="res://Assets/Sprites/seed2.png" id="5_1dw8r"]
+[ext_resource type="Texture2D" uid="uid://co77mj53tbaan" path="res://Assets/Sprites/seed3.png" id="6_154o0"]
+[ext_resource type="PackedScene" uid="uid://b3oni7mwmfd75" path="res://Objects/water.tscn" id="7_0amaj"]
+
+[node name="Nursery" type="Node2D"]
+script = ExtResource("1_i8st4")
+
+[node name="Camera" type="Camera2D" parent="."]
+offset = Vector2(250, 315)
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("2_r8xwg")
+offset = Vector2(250, 315)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 500.0
+offset_bottom = 46.0
+
+[node name="daisies" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 12.0
+offset_right = 87.0
+offset_bottom = 35.0
+text = "0"
+
+[node name="buttercups" type="Label" parent="UI"]
+modulate = Color(1, 1, 0.152941, 1)
+layout_mode = 0
+offset_left = 147.0
+offset_top = 12.0
+offset_right = 187.0
+offset_bottom = 38.0
+text = "0"
+
+[node name="tulips" type="Label" parent="UI"]
+modulate = Color(0.254902, 0.47451, 1, 1)
+layout_mode = 0
+offset_left = 247.0
+offset_top = 12.0
+offset_right = 287.0
+offset_bottom = 38.0
+text = "0"
+
+[node name="roses" type="Label" parent="UI"]
+modulate = Color(0.882353, 0.27451, 0.258824, 1)
+layout_mode = 0
+offset_left = 347.0
+offset_top = 12.0
+offset_right = 387.0
+offset_bottom = 38.0
+text = "0"
+
+[node name="money" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 447.0
+offset_top = 12.0
+offset_right = 487.0
+offset_bottom = 35.0
+text = "$ 0"
+
+[node name="Vases" type="Node2D" parent="."]
+position = Vector2(50, 170)
+
+[node name="Vase1" parent="Vases" instance=ExtResource("3_x60f8")]
+
+[node name="Vase2" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(100, 0)
+
+[node name="Vase3" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(200, 0)
+owned = false
+
+[node name="Vase4" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(300, 0)
+owned = false
+
+[node name="Vase5" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(400, 0)
+owned = false
+
+[node name="Vase6" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(0, 163)
+owned = false
+
+[node name="Vase7" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(100, 163)
+owned = false
+
+[node name="Vase8" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(200, 163)
+owned = false
+
+[node name="Vase9" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(300, 163)
+owned = false
+
+[node name="Vase10" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(400, 163)
+owned = false
+
+[node name="Vase11" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(0, 330)
+owned = false
+
+[node name="Vase12" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(100, 330)
+owned = false
+
+[node name="Vase13" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(200, 330)
+owned = false
+
+[node name="Vase14" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(300, 330)
+owned = false
+
+[node name="Vase15" parent="Vases" instance=ExtResource("3_x60f8")]
+position = Vector2(400, 330)
+owned = false
+
+[node name="Seed1" parent="." instance=ExtResource("4_4y6w2")]
+position = Vector2(50, 570)
+amount = 3
+seedType = "daisy"
+price = 3
+
+[node name="Seed2" parent="." instance=ExtResource("4_4y6w2")]
+position = Vector2(150, 570)
+amount = 3
+seedType = "buttercup"
+fullyGrown = 10
+price = 2
+
+[node name="Sprite2D" parent="Seed2/StaticBody2D" index="0"]
+texture = ExtResource("5_1dw8r")
+
+[node name="Seed3" parent="." instance=ExtResource("4_4y6w2")]
+position = Vector2(250, 570)
+amount = 3
+seedType = "tulip"
+fullyGrown = 30
+price = 5
+
+[node name="Sprite2D" parent="Seed3/StaticBody2D" index="0"]
+texture = ExtResource("6_154o0")
+
+[node name="Water" parent="." instance=ExtResource("7_0amaj")]
+position = Vector2(448, 580)
+amount = 1
+
+[editable path="Seed1"]
+[editable path="Seed2"]
+[editable path="Seed3"]
