@@ -1,73 +1,25 @@
-[gd_scene load_steps=8 format=3 uid="uid://dd1hg4chbhc65"]
+[gd_scene load_steps=11 format=3 uid="uid://brml6lojrrrc8"]
 
 [ext_resource type="Script" path="res://Scripts/nursery.gd" id="1_i8st4"]
-[ext_resource type="Texture2D" uid="uid://2eu77dprsfvu" path="res://Assets/Sprites/background.jpg" id="2_r8xwg"]
+[ext_resource type="Texture2D" uid="uid://pvf6ko46rb4p" path="res://Assets/Sprites/background.jpg" id="2_r8xwg"]
+[ext_resource type="Texture2D" uid="uid://dw5ubh5oruwwv" path="res://Assets/Sprites/stage4-crown.png" id="3_35jgh"]
 [ext_resource type="PackedScene" uid="uid://bvhtrc0fq887a" path="res://Objects/vase.tscn" id="3_x60f8"]
 [ext_resource type="PackedScene" uid="uid://caueefsbd4o05" path="res://Objects/seed.tscn" id="4_4y6w2"]
-[ext_resource type="Texture2D" uid="uid://ber2slhehcn5k" path="res://Assets/Sprites/seed2.png" id="5_1dw8r"]
-[ext_resource type="Texture2D" uid="uid://co77mj53tbaan" path="res://Assets/Sprites/seed3.png" id="6_154o0"]
+[ext_resource type="Texture2D" uid="uid://b8mptg0ao3v6b" path="res://Assets/Sprites/stage4-base1.png" id="4_bav2p"]
+[ext_resource type="Script" path="res://Scripts/navigation.gd" id="4_tqymm"]
+[ext_resource type="Texture2D" uid="uid://ca4eudruynpv" path="res://Assets/Sprites/seed2.png" id="5_1dw8r"]
+[ext_resource type="Texture2D" uid="uid://60agwe3p4uqx" path="res://Assets/Sprites/seed3.png" id="6_154o0"]
 [ext_resource type="PackedScene" uid="uid://b3oni7mwmfd75" path="res://Objects/water.tscn" id="7_0amaj"]
 
 [node name="Nursery" type="Node2D"]
 script = ExtResource("1_i8st4")
 
 [node name="Camera" type="Camera2D" parent="."]
-offset = Vector2(250, 315)
+offset = Vector2(275, 315)
 
 [node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("2_r8xwg")
 offset = Vector2(250, 315)
-
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 500.0
-offset_bottom = 46.0
-
-[node name="daisies" type="Label" parent="UI"]
-layout_mode = 0
-offset_left = 47.0
-offset_top = 12.0
-offset_right = 87.0
-offset_bottom = 35.0
-text = "0"
-
-[node name="buttercups" type="Label" parent="UI"]
-modulate = Color(1, 1, 0.152941, 1)
-layout_mode = 0
-offset_left = 147.0
-offset_top = 12.0
-offset_right = 187.0
-offset_bottom = 38.0
-text = "0"
-
-[node name="tulips" type="Label" parent="UI"]
-modulate = Color(0.254902, 0.47451, 1, 1)
-layout_mode = 0
-offset_left = 247.0
-offset_top = 12.0
-offset_right = 287.0
-offset_bottom = 38.0
-text = "0"
-
-[node name="roses" type="Label" parent="UI"]
-modulate = Color(0.882353, 0.27451, 0.258824, 1)
-layout_mode = 0
-offset_left = 347.0
-offset_top = 12.0
-offset_right = 387.0
-offset_bottom = 38.0
-text = "0"
-
-[node name="money" type="Label" parent="UI"]
-layout_mode = 0
-offset_left = 447.0
-offset_top = 12.0
-offset_right = 487.0
-offset_bottom = 35.0
-text = "$ 0"
 
 [node name="Vases" type="Node2D" parent="."]
 position = Vector2(50, 170)
@@ -99,7 +51,6 @@ owned = false
 
 [node name="Vase8" parent="Vases" instance=ExtResource("3_x60f8")]
 position = Vector2(200, 163)
-owned = false
 
 [node name="Vase9" parent="Vases" instance=ExtResource("3_x60f8")]
 position = Vector2(300, 163)
@@ -158,6 +109,111 @@ texture = ExtResource("6_154o0")
 [node name="Water" parent="." instance=ExtResource("7_0amaj")]
 position = Vector2(448, 580)
 amount = 1
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 500.0
+offset_bottom = 46.0
+
+[node name="daisies" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 12.0
+offset_right = 87.0
+offset_bottom = 35.0
+text = "0"
+
+[node name="daisy-icon" type="Sprite2D" parent="UI/daisies"]
+position = Vector2(-22, 12)
+scale = Vector2(0.54902, 0.54902)
+texture = ExtResource("3_35jgh")
+
+[node name="Stage4-base4" type="Sprite2D" parent="UI/daisies"]
+position = Vector2(-22, 13)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_bav2p")
+
+[node name="buttercups" type="Label" parent="UI"]
+modulate = Color(1, 1, 0.152941, 1)
+layout_mode = 0
+offset_left = 147.0
+offset_top = 12.0
+offset_right = 187.0
+offset_bottom = 38.0
+text = "0"
+
+[node name="butter-icon" type="Sprite2D" parent="UI/buttercups"]
+position = Vector2(-22, 12)
+scale = Vector2(0.54902, 0.54902)
+texture = ExtResource("3_35jgh")
+
+[node name="Stage4-base1" type="Sprite2D" parent="UI/buttercups"]
+self_modulate = Color(1, 0.768627, 1, 1)
+position = Vector2(-22, 13)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_bav2p")
+
+[node name="tulips" type="Label" parent="UI"]
+modulate = Color(0.254902, 0.47451, 1, 1)
+layout_mode = 0
+offset_left = 247.0
+offset_top = 12.0
+offset_right = 287.0
+offset_bottom = 38.0
+text = "0"
+
+[node name="tulip-icon" type="Sprite2D" parent="UI/tulips"]
+position = Vector2(-22, 12)
+scale = Vector2(0.54902, 0.54902)
+texture = ExtResource("3_35jgh")
+
+[node name="Stage4-base2" type="Sprite2D" parent="UI"]
+position = Vector2(225, 25)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_bav2p")
+
+[node name="roses" type="Label" parent="UI"]
+modulate = Color(0.882353, 0.27451, 0.258824, 1)
+layout_mode = 0
+offset_left = 347.0
+offset_top = 12.0
+offset_right = 387.0
+offset_bottom = 38.0
+text = "0"
+
+[node name="rose-icon" type="Sprite2D" parent="UI/roses"]
+position = Vector2(-22, 12)
+scale = Vector2(0.54902, 0.54902)
+texture = ExtResource("3_35jgh")
+
+[node name="Stage4-base3" type="Sprite2D" parent="UI"]
+position = Vector2(325, 25)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_bav2p")
+
+[node name="money" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 447.0
+offset_top = 12.0
+offset_right = 487.0
+offset_bottom = 35.0
+text = "$ 0"
+
+[node name="Button" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 499.0
+offset_top = -1.0
+offset_right = 548.0
+offset_bottom = 629.0
+mouse_default_cursor_shape = 2
+icon_alignment = 1
+script = ExtResource("4_tqymm")
+scene = "res://Scenes/shop.tscn"
+
+[connection signal="pressed" from="UI/Button" to="UI/Button" method="_on_pressed"]
 
 [editable path="Seed1"]
 [editable path="Seed2"]

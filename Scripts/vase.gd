@@ -10,8 +10,9 @@ var growth = 0
 
 #informações da semente
 var seedType:String
-var fullyGrown:float
+var fullyGrown:float = 10
 var price:int
+var color:Color
 
 #sinais
 signal planted
@@ -31,53 +32,115 @@ func _process(_delta):
 		water += 0.01
 #		growth = fullyGrown
 #		growing()
+
+#func _on_mouse_entered():
+	if growth >= fullyGrown and growth > 0:
+		$mouseover.mouse_default_cursor_shape = 2
+	else:
+		$mouseover.mouse_default_cursor_shape = 0
 	
 	$growthMeter.value = growth
 	$waterMeter.value = water
 
 
-
 func _on_area_entered(area):
 	#verifica qual semente está sendo plantada
-	#é melhor setar esse valor na loja quando o cursor segurar o objeto, emitir para o _on_area_entered() e anular em seguida
+	#é melhor setar esse valor na loja quando o cursor segurar o objeto e salvar no isHolding e anular quando soltar
 	isHolding = area.get_parent()
-
 
 func _on_area_exited(area):
 	isHolding = null
 
 
-func have_seed(seed):
-	if seed.amount > 0:
-		return true
-  
+func setColor():
+	match seedType:
+		"daisy":
+			color = (Color(1, 1, 1, 1))
+		"buttercup":
+			color = (Color(1, 1, 0.153))
+		"tulip":
+			color = (Color(0.255, 0.475, 1))
+		"rose":
+			color = (Color(0.882, 0.275, 0.259))
+	$Root/Bud2.self_modulate = color
+	$Root/Bud3.self_modulate = color
+	$Root/Bud4.self_modulate = color
+
+
+#planta uma flor no vaso
+func plant():
+	emit_signal("planted", isHolding)
+	occupied = true
+	$Occupied.visible = true
+	fullyGrown = isHolding.fullyGrown
+	$growthMeter.max_value = fullyGrown
+	price = isHolding.price
+	seedType = isHolding.seedType
+	setColor()
+
+
+#colhe a flor e reseta o vaso
+func harvest():
+	growth = 0
+	occupied = false
+	$Occupied.visible = false
+	growthStage()
+	emit_signal("harvested", price, seedType)
+
+
+func growthStage():
+#se possível, transformar em um match
+#	match growth:
+
+#método de revelação ascendente
+#	if growth >= fullyGrown*1/4:
+#		$Root/Growth1.visible = true
+#	if growth >= fullyGrown*2/4:
+#		$Root/Growth2.visible = true
+#	if growth >= fullyGrown*3/4:
+#		$Root/Growth3.visible = true
+#	if growth >= fullyGrown:
+#		$Root/Growth4.visible = true
+#	else:
+#		for child in $Root.get_children():
+#			child.visible = false
+
+#método de mudança de sprite
+	if growth >= fullyGrown:
+		$Root/Stalk.texture = load("res://Assets/Sprites/stage4-stalk.png")
+		$Root/Bud3.visible = false
+		$Root/Bud4.visible = true
+	elif growth >= fullyGrown*3/4:
+		$Root/Stalk.texture = load("res://Assets/Sprites/stage3-stalk.png")
+		$Root/Bud2.visible = false
+		$Root/Bud3.visible = true
+	elif growth >= fullyGrown*2/4:
+		$Root/Stalk.texture = load("res://Assets/Sprites/stage2-stalk.png")
+		$Root/Bud2.visible = true
+	elif growth >= fullyGrown*1/4:
+		$Root/Stalk.texture = load("res://Assets/Sprites/stage1.png")
+	else:
+		$Root/Stalk.texture = null
+		$Root/Bud4.visible = false
+
 
 func _on_input_event(_viewport, _event, _shape_idx):
 	#ao soltar a semente, checa se tem sementes e se o vaso está vazio antes de plantar
 	if Input.is_action_just_released("click"):
 		if isHolding == null:
-			return
+			if growth >= fullyGrown:
+				harvest()
 		elif isHolding.is_in_group("seeds"):
-			if not occupied and have_seed(isHolding):
-				emit_signal("planted", isHolding)
-				occupied = true
-				$Occupied.visible = true
-				fullyGrown = isHolding.fullyGrown
-				$growthMeter.max_value = fullyGrown
-				price = isHolding.price
-				seedType = isHolding.seedType
+			if not occupied and isHolding.has_seed():
+				plant()
 		#enche água
 		elif isHolding.is_in_group("water"):
 			water = 10.00
-	if Input.is_action_just_pressed("click"):
-		#colhe a flor e reseta o vaso
-		if growth >= fullyGrown:
-			growth = 0
-			occupied = false
-			$Occupied.visible = false
-			for child in $Root.get_children():
-				child.visible = false
-			emit_signal("harvested", price, seedType)
+	#crescimento instantâneo para debug
+	elif Input.is_action_just_pressed("right_click"):
+		if occupied:
+			growth = fullyGrown
+			growthStage()
 
 
 func growing():
@@ -85,28 +148,7 @@ func growing():
 	growth += 0.0166
 
 	#placeholder de estágio de crescimento
-	#substituir por uma mudança de sprite aqui e na colheita
-	if growth >= fullyGrown/4:
-		$Root/Growth1.visible = true
-	if growth >= fullyGrown/2:
-		$Root/Growth2.visible = true
-	if growth >= fullyGrown/4*3:
-		$Root/Growth3.visible = true
-	if growth >= fullyGrown:
-		$Root/Growth4.visible = true
+	growthStage()
 
 	if visible:
 		print('\n', "Water: ", water, '\n', "Growth: ", growth)
-
-#	if not grows:
-#		$GrowthCycle.start(5)
-#		grows = true
-
-
-#func _on_mouse_entered():
-#	if growth >= fullyGrown:
-#		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
-#
-#
-#func _on_mouse_exited():
-#	Input.set_default_cursor_shape(Input.CURSOR_ARROW)

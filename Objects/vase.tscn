@@ -1,16 +1,27 @@
-[gd_scene load_steps=7 format=3 uid="uid://bvhtrc0fq887a"]
+[gd_scene load_steps=10 format=3 uid="uid://bvhtrc0fq887a"]
 
 [ext_resource type="Script" path="res://Scripts/vase.gd" id="1_f5i5j"]
-[ext_resource type="Texture2D" uid="uid://cvh4hkjgxr770" path="res://Assets/Sprites/vase.png" id="2_snxc6"]
-[ext_resource type="Texture2D" uid="uid://70gfobpphkiu" path="res://Assets/Sprites/occupied.png" id="3_elbus"]
-[ext_resource type="Texture2D" uid="uid://j16c7m8kyqau" path="res://Assets/Sprites/growth_test.png" id="4_u44m3"]
-[ext_resource type="Texture2D" uid="uid://bigcrcncl0o7l" path="res://Assets/Sprites/progress_test.png" id="5_8qf6r"]
+[ext_resource type="Texture2D" uid="uid://cinngy0xi6thh" path="res://Assets/Sprites/vase.png" id="2_snxc6"]
+[ext_resource type="Texture2D" uid="uid://deyomhwiyck2r" path="res://Assets/Sprites/occupied.png" id="3_elbus"]
+[ext_resource type="Texture2D" uid="uid://bs5lua4fxfvki" path="res://Assets/Sprites/progress_test.png" id="5_8qf6r"]
+[ext_resource type="Texture2D" uid="uid://b1u8b2dawj7j" path="res://Assets/Sprites/stage2-crown.png" id="5_yvmtd"]
+[ext_resource type="Texture2D" uid="uid://4g8sq6pvvqcq" path="res://Assets/Sprites/stage3-crown.png" id="6_n8hh0"]
+[ext_resource type="Texture2D" uid="uid://dw5ubh5oruwwv" path="res://Assets/Sprites/stage4-crown.png" id="7_01lxu"]
+[ext_resource type="Texture2D" uid="uid://b8mptg0ao3v6b" path="res://Assets/Sprites/stage4-base1.png" id="8_f58uc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pdefl"]
 size = Vector2(76, 123)
 
 [node name="Vase" type="Area2D"]
 script = ExtResource("1_f5i5j")
+
+[node name="mouseover" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -38.0
+offset_top = -123.0
+offset_right = 38.0
+mouse_filter = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -29)
@@ -47,36 +58,37 @@ tint_progress = Color(0.00392157, 0.643137, 1, 1)
 [node name="Root" type="Node2D" parent="."]
 position = Vector2(0, -58)
 
-[node name="Growth4" type="Sprite2D" parent="Root"]
-visible = false
-position = Vector2(0, -56)
-texture = ExtResource("4_u44m3")
+[node name="Stalk" type="Sprite2D" parent="Root"]
+position = Vector2(-27, -77)
+centered = false
 
-[node name="Growth3" type="Sprite2D" parent="Root"]
+[node name="Bud2" type="Sprite2D" parent="Root"]
 visible = false
-position = Vector2(0, -40)
-texture = ExtResource("4_u44m3")
+position = Vector2(1, -37)
+texture = ExtResource("5_yvmtd")
 
-[node name="Growth2" type="Sprite2D" parent="Root"]
+[node name="Bud3" type="Sprite2D" parent="Root"]
 visible = false
-position = Vector2(0, -24)
-texture = ExtResource("4_u44m3")
+position = Vector2(27, -67)
+texture = ExtResource("6_n8hh0")
 
-[node name="Growth1" type="Sprite2D" parent="Root"]
+[node name="Bud4" type="Sprite2D" parent="Root"]
 visible = false
-position = Vector2(0, -8)
-texture = ExtResource("4_u44m3")
+position = Vector2(-5, -81)
+texture = ExtResource("7_01lxu")
 
-[node name="GrowthCycle" type="Timer" parent="."]
+[node name="core" type="Sprite2D" parent="Root/Bud4"]
+position = Vector2(0, 1)
+texture = ExtResource("8_f58uc")
+
+[node name="Growth" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 
-[node name="WitherTimer" type="Timer" parent="."]
+[node name="Water" type="Timer" parent="."]
 wait_time = 15.0
 one_shot = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
 [connection signal="input_event" from="." to="." method="_on_input_event"]
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

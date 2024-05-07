@@ -39,6 +39,12 @@ func _on_static_body_2d_input_event(_viewport, _event, _shape_idx):
 		position = initial_position
 		dragging = false
 
+
+func has_seed():
+	if amount > 0:
+		return true
+
+
 #func _on_planted():
 #	if amount>0:
 #		amount-=1
