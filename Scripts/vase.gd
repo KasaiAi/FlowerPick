@@ -17,11 +17,14 @@ var color:Color
 #sinais
 signal planted
 signal harvested
+signal teste
 
 func _ready():
 	#prepara os vasos comprados
 	visible = owned
 	set_deferred("monitorable", owned)
+	
+	connect("teste", _on_teste)
 
 
 func _process(_delta):
@@ -136,11 +139,18 @@ func _on_input_event(_viewport, _event, _shape_idx):
 		#enche água
 		elif isHolding.is_in_group("water"):
 			water = 10.00
+			emit_signal("teste")
 	#crescimento instantâneo para debug
 	elif Input.is_action_just_pressed("right_click"):
 		if occupied:
 			growth = fullyGrown
 			growthStage()
+#
+func _on_teste():
+#	$Water.start(10)
+#	while($Water.time_left) and occupied:
+#		$waterMeter.value = $Water.time_left
+	pass 
 
 
 func growing():

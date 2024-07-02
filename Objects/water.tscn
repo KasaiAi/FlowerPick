@@ -12,8 +12,7 @@ size = Vector2(40, 52)
 [node name="Water" type="Node2D" groups=["water"]]
 script = ExtResource("1_yb216")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-input_pickable = true
+[node name="StaticBody2D" type="Area2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 scale = Vector2(0.4, 0.4)
