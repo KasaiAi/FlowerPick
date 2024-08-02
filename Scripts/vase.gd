@@ -2,59 +2,56 @@ extends Node2D
 
 @export var owned = true
 var occupied = false
-var isHolding:Node
+var heldItem:Node
 
 #controle de crescimento
-var water = 0
-var growth = 0
+var growthStage = 0
+var teste = 4
 
 #informações da semente
 var seedType:String
-var fullyGrown:float = 10
+var fullyGrown:float
 var price:int
 var color:Color
 
 #sinais
 signal planted
 signal harvested
-signal teste
 
 func _ready():
 	#prepara os vasos comprados
 	visible = owned
 	set_deferred("monitorable", owned)
 	
-	connect("teste", _on_teste)
-
+	$Growth.paused = true
+	$Water.paused = true
 
 func _process(_delta):
-	#checa se o vaso está plantado e regado e faz a flor crescer
-	if occupied and water > 0 and growth < fullyGrown:
-		growing()
-	elif growth < fullyGrown and fullyGrown - growth < 0.01:
-		water += 0.01
-#		growth = fullyGrown
-#		growing()
-
-#func _on_mouse_entered():
-	if growth >= fullyGrown and growth > 0:
+	spriteUpdate()
+	
+	# Para debug
+	#if visible:
+	#	print('\n', "Water: ", $WaterMeter.value, '\n', "Growth: ", $GrowthMeter.value)
+	
+	# Ideal seria mudar isso só quando o mouse entra e sai da flor
+	#func _on_mouse_entered():
+	if growthStage == 4:
 		$mouseover.mouse_default_cursor_shape = 2
 	else:
 		$mouseover.mouse_default_cursor_shape = 0
 	
-	$growthMeter.value = growth
-	$waterMeter.value = water
-
+	$GrowthMeter.value = fullyGrown - $Growth.time_left
+	$WaterMeter.value = $Water.time_left
 
 func _on_area_entered(area):
-	#verifica qual semente está sendo plantada
-	#é melhor setar esse valor na loja quando o cursor segurar o objeto e salvar no isHolding e anular quando soltar
-	isHolding = area.get_parent()
+	# Salva o objeto que está sendo segurado
+	heldItem = area.get_parent()
 
-func _on_area_exited(area):
-	isHolding = null
+func _on_area_exited(_area):
+	# Libera a variável
+	heldItem = null
 
-
+# Atribui a cor de uma flor
 func setColor():
 	match seedType:
 		"daisy":
@@ -69,96 +66,79 @@ func setColor():
 	$Root/Bud3.self_modulate = color
 	$Root/Bud4.self_modulate = color
 
-
-#planta uma flor no vaso
-func plant():
-	emit_signal("planted", isHolding)
+# Planta e define as informações de uma flor
+func plantVase():
+	emit_signal("planted", heldItem)
 	occupied = true
-	$Occupied.visible = true
-	fullyGrown = isHolding.fullyGrown
-	$growthMeter.max_value = fullyGrown
-	price = isHolding.price
-	seedType = isHolding.seedType
+	$OccupiedIcon.visible = true
+	fullyGrown = heldItem.fullyGrown
+	$GrowthMeter.max_value = fullyGrown
+	price = heldItem.price
+	seedType = heldItem.seedType
 	setColor()
+	
+	$Growth.start(fullyGrown)
+	$Water.paused = false
+	if $Water.is_stopped() == false:
+		$Growth.paused = false
 
+# Rega o vaso
+func waterVase():
+	$Water.start(10)
+	if occupied:
+		$Growth.paused = false
 
-#colhe a flor e reseta o vaso
-func harvest():
-	growth = 0
+# Colhe a flor e reseta o vaso
+func harvestVase():
+	$Growth.start(fullyGrown)
 	occupied = false
-	$Occupied.visible = false
-	growthStage()
+	$OccupiedIcon.visible = false
+	spriteUpdate()
 	emit_signal("harvested", price, seedType)
 
+# Controlador do sprite da flor
+func spriteUpdate():
+	growthStage = floori($GrowthMeter.value/(fullyGrown/4))
+	match growthStage:
+		0:
+			$Root/Stalk.texture = null
+			$Root/Bud4.visible = false
+		1:
+			$Root/Stalk.texture = load("res://Assets/Sprites/stage1.png")
+		2:
+			$Root/Stalk.texture = load("res://Assets/Sprites/stage2-stalk.png")
+			$Root/Bud2.visible = true
+		3:
+			$Root/Stalk.texture = load("res://Assets/Sprites/stage3-stalk.png")
+			$Root/Bud2.visible = false
+			$Root/Bud3.visible = true
+		4:
+			$Root/Stalk.texture = load("res://Assets/Sprites/stage4-stalk.png")
+			$Root/Bud3.visible = false
+			$Root/Bud4.visible = true
 
-func growthStage():
-#se possível, transformar em um match
-#	match growth:
-
-#método de revelação ascendente
-#	if growth >= fullyGrown*1/4:
-#		$Root/Growth1.visible = true
-#	if growth >= fullyGrown*2/4:
-#		$Root/Growth2.visible = true
-#	if growth >= fullyGrown*3/4:
-#		$Root/Growth3.visible = true
-#	if growth >= fullyGrown:
-#		$Root/Growth4.visible = true
-#	else:
-#		for child in $Root.get_children():
-#			child.visible = false
-
-#método de mudança de sprite
-	if growth >= fullyGrown:
-		$Root/Stalk.texture = load("res://Assets/Sprites/stage4-stalk.png")
-		$Root/Bud3.visible = false
-		$Root/Bud4.visible = true
-	elif growth >= fullyGrown*3/4:
-		$Root/Stalk.texture = load("res://Assets/Sprites/stage3-stalk.png")
-		$Root/Bud2.visible = false
-		$Root/Bud3.visible = true
-	elif growth >= fullyGrown*2/4:
-		$Root/Stalk.texture = load("res://Assets/Sprites/stage2-stalk.png")
-		$Root/Bud2.visible = true
-	elif growth >= fullyGrown*1/4:
-		$Root/Stalk.texture = load("res://Assets/Sprites/stage1.png")
-	else:
-		$Root/Stalk.texture = null
-		$Root/Bud4.visible = false
-
-
+#Opções de input
 func _on_input_event(_viewport, _event, _shape_idx):
-	#ao soltar a semente, checa se tem sementes e se o vaso está vazio antes de plantar
+	# Checks ao soltar a semente
 	if Input.is_action_just_released("click"):
-		if isHolding == null:
-			if growth >= fullyGrown:
-				harvest()
-		elif isHolding.is_in_group("seeds"):
-			if not occupied and isHolding.has_seed():
-				plant()
-		#enche água
-		elif isHolding.is_in_group("water"):
-			water = 10.00
-			emit_signal("teste")
-	#crescimento instantâneo para debug
+		# Se não tá segurando nada, colhe planta madura
+		if heldItem == null:
+			if growthStage == 4:
+				harvestVase()
+		# Se tá segurando uma semente e o vaso tá vazio, planta a semente
+		elif heldItem.is_in_group("seeds"):
+			if not occupied:
+				plantVase()
+		# Se tá segurando água, rega o vaso
+		elif heldItem.is_in_group("water"):
+			waterVase()
+	# Crescimento instantâneo para debug
 	elif Input.is_action_just_pressed("right_click"):
 		if occupied:
-			growth = fullyGrown
-			growthStage()
-#
-func _on_teste():
-#	$Water.start(10)
-#	while($Water.time_left) and occupied:
-#		$waterMeter.value = $Water.time_left
-	pass 
+			$Growth.stop()
+			pauseGrowth()
+			spriteUpdate()
 
-
-func growing():
-	water -= 0.0166
-	growth += 0.0166
-
-	#placeholder de estágio de crescimento
-	growthStage()
-
-	if visible:
-		print('\n', "Water: ", water, '\n', "Growth: ", growth)
+func pauseGrowth():
+	$Water.paused = true
+	$Growth.paused = true

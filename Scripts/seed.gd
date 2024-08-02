@@ -6,7 +6,6 @@ var dragging
 @export var fullyGrown = 20
 @export var price = 1
 
-
 @onready var initial_position = position
 
 #@export_flags("Fire", "Water", "Earth", "Wind") var spell_elements = 0
@@ -38,11 +37,6 @@ func _on_static_body_2d_input_event(_viewport, _event, _shape_idx):
 	if Input.is_action_just_released("click"):
 		position = initial_position
 		dragging = false
-
-
-func has_seed():
-	if amount > 0:
-		return true
 
 
 #func _on_planted():

@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://bvhtrc0fq887a"]
 
 [ext_resource type="Script" path="res://Scripts/vase.gd" id="1_f5i5j"]
-[ext_resource type="Texture2D" uid="uid://cinngy0xi6thh" path="res://Assets/Sprites/vase.png" id="2_snxc6"]
-[ext_resource type="Texture2D" uid="uid://deyomhwiyck2r" path="res://Assets/Sprites/occupied.png" id="3_elbus"]
-[ext_resource type="Texture2D" uid="uid://bs5lua4fxfvki" path="res://Assets/Sprites/progress_test.png" id="5_8qf6r"]
-[ext_resource type="Texture2D" uid="uid://b1u8b2dawj7j" path="res://Assets/Sprites/stage2-crown.png" id="5_yvmtd"]
-[ext_resource type="Texture2D" uid="uid://4g8sq6pvvqcq" path="res://Assets/Sprites/stage3-crown.png" id="6_n8hh0"]
-[ext_resource type="Texture2D" uid="uid://dw5ubh5oruwwv" path="res://Assets/Sprites/stage4-crown.png" id="7_01lxu"]
-[ext_resource type="Texture2D" uid="uid://b8mptg0ao3v6b" path="res://Assets/Sprites/stage4-base1.png" id="8_f58uc"]
+[ext_resource type="Texture2D" uid="uid://dklbeo5jwox3p" path="res://Assets/Sprites/vase.png" id="2_snxc6"]
+[ext_resource type="Texture2D" uid="uid://cjclirf6rprmn" path="res://Assets/Sprites/occupied.png" id="3_elbus"]
+[ext_resource type="Texture2D" uid="uid://cql0twkpylwn4" path="res://Assets/Sprites/progress_test.png" id="5_8qf6r"]
+[ext_resource type="Texture2D" uid="uid://dtb0pkitoufy2" path="res://Assets/Sprites/stage2-crown.png" id="5_yvmtd"]
+[ext_resource type="Texture2D" uid="uid://2un7j61qbxnn" path="res://Assets/Sprites/stage3-crown.png" id="6_n8hh0"]
+[ext_resource type="Texture2D" uid="uid://s3j70c0c1n1h" path="res://Assets/Sprites/stage4-crown.png" id="7_01lxu"]
+[ext_resource type="Texture2D" uid="uid://cbvepbtj7h8qt" path="res://Assets/Sprites/stage4-base1.png" id="8_f58uc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pdefl"]
 size = Vector2(76, 123)
@@ -27,7 +27,7 @@ mouse_filter = 1
 position = Vector2(0, -29)
 texture = ExtResource("2_snxc6")
 
-[node name="Occupied" type="Sprite2D" parent="."]
+[node name="OccupiedIcon" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0, -21)
 texture = ExtResource("3_elbus")
@@ -36,7 +36,7 @@ texture = ExtResource("3_elbus")
 position = Vector2(0, -61.5)
 shape = SubResource("RectangleShape2D_pdefl")
 
-[node name="growthMeter" type="TextureProgressBar" parent="."]
+[node name="GrowthMeter" type="TextureProgressBar" parent="."]
 offset_left = -41.0
 offset_top = 1.0
 offset_right = 41.0
@@ -45,7 +45,7 @@ step = 0.5
 texture_progress = ExtResource("5_8qf6r")
 tint_progress = Color(0.686275, 0.960784, 0.145098, 1)
 
-[node name="waterMeter" type="TextureProgressBar" parent="."]
+[node name="WaterMeter" type="TextureProgressBar" parent="."]
 offset_left = -41.0
 offset_top = 10.0
 offset_right = 41.0
@@ -77,18 +77,19 @@ visible = false
 position = Vector2(-5, -81)
 texture = ExtResource("7_01lxu")
 
-[node name="core" type="Sprite2D" parent="Root/Bud4"]
+[node name="Core" type="Sprite2D" parent="Root/Bud4"]
 position = Vector2(0, 1)
 texture = ExtResource("8_f58uc")
 
-[node name="Growth" type="Timer" parent="."]
-wait_time = 5.0
+[node name="Water" type="Timer" parent="."]
+wait_time = 10.0
 one_shot = true
 
-[node name="Water" type="Timer" parent="."]
-wait_time = 15.0
+[node name="Growth" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
 [connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="timeout" from="Water" to="." method="pauseGrowth"]
+[connection signal="timeout" from="Growth" to="." method="pauseGrowth"]
