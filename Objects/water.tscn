@@ -1,31 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3oni7mwmfd75"]
+[gd_scene load_steps=4 format=3 uid="uid://b3oni7mwmfd75"]
 
-[ext_resource type="Script" path="res://Scripts/seed.gd" id="1_yb216"]
 [ext_resource type="Texture2D" uid="uid://cesq0cmxmk83j" path="res://Assets/Sprites/water.png" id="2_ii0a6"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_irbqc"]
-size = Vector2(52, 52)
+[ext_resource type="PackedScene" uid="uid://dk8gw62qrccoy" path="res://Nodes/Draggable.tscn" id="2_oc8gr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3v5y3"]
-size = Vector2(40, 52)
+size = Vector2(52, 52)
 
 [node name="Water" type="Node2D" groups=["water"]]
-script = ExtResource("1_yb216")
 
-[node name="StaticBody2D" type="Area2D" parent="."]
+[node name="DraggableComponent" parent="." instance=ExtResource("2_oc8gr")]
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DraggableComponent"]
+shape = SubResource("RectangleShape2D_3v5y3")
+
+[node name="Sprite2D" type="Sprite2D" parent="DraggableComponent"]
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_ii0a6")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("RectangleShape2D_irbqc")
-
-[node name="Area2D" type="Area2D" parent="."]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_3v5y3")
 
 [node name="Label" type="Label" parent="."]
 visible = false
@@ -33,5 +23,3 @@ offset_left = 18.0
 offset_top = 22.0
 offset_right = 58.0
 offset_bottom = 45.0
-
-[connection signal="input_event" from="StaticBody2D" to="." method="_on_static_body_2d_input_event"]

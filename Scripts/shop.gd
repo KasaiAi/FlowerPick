@@ -1,18 +1,17 @@
 extends Node2D
 
+
 func _ready():
-	for child in $Vases.get_children():
-		child.connect("harvested", _on_harvested)
-	
+	connect("purchased", _on_purchased)
 	$UI/Money.text = "$ "+str(Global.Money)
 	$UI/Daisy.text = str(Global.inventory["Daisy"]["Flowers"])
 	$UI/Buttercup.text = str(Global.inventory["Buttercup"]["Flowers"])
 	$UI/Tulip.text = str(Global.inventory["Tulip"]["Flowers"])
 	$UI/Rose.text = str(Global.inventory["Rose"]["Flowers"])
 
-func _on_harvested(sellPrice, seedType):
-	Global.Money += sellPrice
+func _process(delta):
+	pass
+
+func _on_purchased():
+	print("chegou?")
 	$UI/Money.text = "$ "+str(Global.Money)
-	
-	Global.inventory[seedType]["Flowers"] += 1
-	$UI.get_node(seedType).text = str(Global.inventory[seedType]["Flowers"])

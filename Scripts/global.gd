@@ -1,11 +1,10 @@
 extends Node
 
+var inventory = {"Money": 0,
+			"Daisy": {"Seeds": 3, "Flowers": 0},
+			"Buttercup": {"Seeds": 3, "Flowers": 0},
+			"Tulip": {"Seeds": 3, "Flowers": 0},
+			"Rose": {"Seeds": 0, "Flowers": 0}
+			}
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+var Money = 0

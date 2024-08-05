@@ -1,18 +1,20 @@
 [gd_scene load_steps=11 format=3 uid="uid://tsy1klep4wkl"]
 
-[ext_resource type="Script" path="res://Scripts/nursery.gd" id="1_hf1dy"]
-[ext_resource type="Texture2D" uid="uid://pvf6ko46rb4p" path="res://Assets/Sprites/background.jpg" id="2_gwhb5"]
+[ext_resource type="Script" path="res://Scripts/shop.gd" id="1_ey6x5"]
+[ext_resource type="Texture2D" uid="uid://bmuxchiuwxdf7" path="res://Assets/Sprites/background.jpg" id="2_gwhb5"]
 [ext_resource type="Script" path="res://Scripts/navigation.gd" id="2_x4q6q"]
+[ext_resource type="Script" path="res://Scripts/buy_item.gd" id="3_cevxn"]
+[ext_resource type="Texture2D" uid="uid://wkhbtxh47vya" path="res://Assets/Sprites/seed1.png" id="3_kkvfc"]
 [ext_resource type="PackedScene" uid="uid://bvhtrc0fq887a" path="res://Objects/vase.tscn" id="3_p1sp8"]
-[ext_resource type="PackedScene" uid="uid://caueefsbd4o05" path="res://Objects/seed.tscn" id="4_et3ax"]
-[ext_resource type="Texture2D" uid="uid://ca4eudruynpv" path="res://Assets/Sprites/seed2.png" id="5_ei6j7"]
-[ext_resource type="Texture2D" uid="uid://60agwe3p4uqx" path="res://Assets/Sprites/seed3.png" id="6_bkygu"]
-[ext_resource type="Texture2D" uid="uid://dw5ubh5oruwwv" path="res://Assets/Sprites/stage4-crown.png" id="8_hsllr"]
-[ext_resource type="Texture2D" uid="uid://b8mptg0ao3v6b" path="res://Assets/Sprites/stage4-base1.png" id="9_5hjnr"]
-[ext_resource type="Script" path="res://Scenes/draggable.gd" id="10_4wlkm"]
+[ext_resource type="PackedScene" uid="uid://cbfmrqva87e6f" path="res://Objects/seed.tscn" id="4_et3ax"]
+[ext_resource type="Texture2D" uid="uid://s3j70c0c1n1h" path="res://Assets/Sprites/stage4-crown.png" id="8_hsllr"]
+[ext_resource type="Texture2D" uid="uid://cbvepbtj7h8qt" path="res://Assets/Sprites/stage4-base1.png" id="9_5hjnr"]
 
-[node name="Nursery" type="Node2D"]
-script = ExtResource("1_hf1dy")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3v5y3"]
+size = Vector2(40, 52)
+
+[node name="Shop" type="Node2D"]
+script = ExtResource("1_ey6x5")
 
 [node name="Camera" type="Camera2D" parent="."]
 offset = Vector2(225, 315)
@@ -21,45 +23,35 @@ offset = Vector2(225, 315)
 texture = ExtResource("2_gwhb5")
 offset = Vector2(250, 315)
 
-[node name="Vases" type="Node2D" parent="."]
-position = Vector2(50, 170)
+[node name="BuySeed" type="Area2D" parent="."]
+position = Vector2(47, 121)
+script = ExtResource("3_cevxn")
+price = 1
 
-[node name="BuyVase" parent="Vases" instance=ExtResource("3_p1sp8")]
-position = Vector2(300, 0)
-script = null
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BuySeed"]
+shape = SubResource("RectangleShape2D_3v5y3")
 
-[node name="Seed1" parent="." instance=ExtResource("4_et3ax")]
-position = Vector2(47, 129)
-script = null
+[node name="Sprite2D" type="Sprite2D" parent="BuySeed"]
+texture = ExtResource("3_kkvfc")
 
-[node name="draggable" type="Node2D" parent="Seed1/StaticBody2D" index="2"]
-position = Vector2(-47, -129)
-script = ExtResource("10_4wlkm")
+[node name="Price" type="Label" parent="BuySeed"]
+offset_left = -20.0
+offset_top = 22.0
+offset_right = 20.0
+offset_bottom = 48.0
+horizontal_alignment = 1
 
-[node name="Label" parent="Seed1" index="2"]
-visible = false
-metadata/_edit_use_anchors_ = true
-
-[node name="Seed2" parent="." instance=ExtResource("4_et3ax")]
+[node name="BuySeed2" parent="." instance=ExtResource("4_et3ax")]
 position = Vector2(150, 129)
 script = null
 
-[node name="Sprite2D" parent="Seed2/StaticBody2D" index="0"]
-texture = ExtResource("5_ei6j7")
-
-[node name="Label" parent="Seed2" index="2"]
-visible = false
-metadata/_edit_use_anchors_ = true
-
-[node name="Seed3" parent="." instance=ExtResource("4_et3ax")]
+[node name="BuySeed3" parent="." instance=ExtResource("4_et3ax")]
 position = Vector2(250, 127)
 script = null
 
-[node name="Sprite2D" parent="Seed3/StaticBody2D" index="0"]
-texture = ExtResource("6_bkygu")
-
-[node name="Label" parent="Seed3" index="2"]
-visible = false
+[node name="BuyVase" parent="." instance=ExtResource("3_p1sp8")]
+position = Vector2(350, 170)
+script = null
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -69,28 +61,26 @@ offset_top = 1.0
 offset_right = 500.0
 offset_bottom = 46.0
 
-[node name="daisies" type="Label" parent="UI"]
+[node name="Daisy" type="Label" parent="UI"]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 12.0
 offset_right = 87.0
 offset_bottom = 38.0
-mouse_filter = 1
-mouse_default_cursor_shape = 2
 text = "0"
 
-[node name="daisy-icon" type="Sprite2D" parent="UI/daisies"]
+[node name="daisy-icon" type="Sprite2D" parent="UI/Daisy"]
 position = Vector2(-22, 12)
 scale = Vector2(0.54902, 0.54902)
 texture = ExtResource("8_hsllr")
 
-[node name="Stage4-base4" type="Sprite2D" parent="UI/daisies"]
+[node name="Stage4-base4" type="Sprite2D" parent="UI/Daisy"]
 position = Vector2(-22, 13)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("9_5hjnr")
 
-[node name="buttercups" type="Label" parent="UI"]
-modulate = Color(1, 1, 0.152941, 1)
+[node name="Buttercup" type="Label" parent="UI"]
+self_modulate = Color(1, 1, 0.152941, 1)
 layout_mode = 0
 offset_left = 147.0
 offset_top = 12.0
@@ -98,19 +88,20 @@ offset_right = 187.0
 offset_bottom = 38.0
 text = "0"
 
-[node name="butter-icon" type="Sprite2D" parent="UI/buttercups"]
+[node name="butter-icon" type="Sprite2D" parent="UI/Buttercup"]
+self_modulate = Color(1, 1, 0.152941, 1)
 position = Vector2(-22, 12)
 scale = Vector2(0.54902, 0.54902)
 texture = ExtResource("8_hsllr")
 
-[node name="Stage4-base1" type="Sprite2D" parent="UI/buttercups"]
+[node name="Stage4-base1" type="Sprite2D" parent="UI/Buttercup"]
 self_modulate = Color(1, 0.768627, 1, 1)
 position = Vector2(-22, 13)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("9_5hjnr")
 
-[node name="tulips" type="Label" parent="UI"]
-modulate = Color(0.254902, 0.47451, 1, 1)
+[node name="Tulip" type="Label" parent="UI"]
+self_modulate = Color(0.254902, 0.47451, 1, 1)
 layout_mode = 0
 offset_left = 247.0
 offset_top = 12.0
@@ -118,18 +109,19 @@ offset_right = 287.0
 offset_bottom = 38.0
 text = "0"
 
-[node name="tulip-icon" type="Sprite2D" parent="UI/tulips"]
+[node name="tulip-icon" type="Sprite2D" parent="UI/Tulip"]
+self_modulate = Color(0.254902, 0.47451, 1, 1)
 position = Vector2(-22, 12)
 scale = Vector2(0.54902, 0.54902)
 texture = ExtResource("8_hsllr")
 
-[node name="Stage4-base2" type="Sprite2D" parent="UI"]
-position = Vector2(225, 25)
+[node name="Stage4-base2" type="Sprite2D" parent="UI/Tulip"]
+position = Vector2(-22, 13)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("9_5hjnr")
 
-[node name="roses" type="Label" parent="UI"]
-modulate = Color(0.882353, 0.27451, 0.258824, 1)
+[node name="Rose" type="Label" parent="UI"]
+self_modulate = Color(0.882353, 0.27451, 0.258824, 1)
 layout_mode = 0
 offset_left = 347.0
 offset_top = 12.0
@@ -137,17 +129,18 @@ offset_right = 387.0
 offset_bottom = 38.0
 text = "0"
 
-[node name="rose-icon" type="Sprite2D" parent="UI/roses"]
+[node name="rose-icon" type="Sprite2D" parent="UI/Rose"]
+self_modulate = Color(0.882353, 0.27451, 0.258824, 1)
 position = Vector2(-22, 12)
 scale = Vector2(0.54902, 0.54902)
 texture = ExtResource("8_hsllr")
 
-[node name="Stage4-base3" type="Sprite2D" parent="UI"]
-position = Vector2(325, 25)
+[node name="Stage4-base3" type="Sprite2D" parent="UI/Rose"]
+position = Vector2(-22, 13)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("9_5hjnr")
 
-[node name="money" type="Label" parent="UI"]
+[node name="Money" type="Label" parent="UI"]
 layout_mode = 0
 offset_left = 447.0
 offset_top = 12.0
@@ -164,8 +157,10 @@ offset_bottom = 629.0
 script = ExtResource("2_x4q6q")
 scene = "res://Scenes/nursery.tscn"
 
+[connection signal="input_event" from="BuySeed" to="BuySeed" method="_on_input_event"]
+[connection signal="mouse_entered" from="BuySeed" to="BuySeed" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="BuySeed" to="BuySeed" method="_on_mouse_exited"]
 [connection signal="pressed" from="UI/Button" to="UI/Button" method="_on_pressed"]
 
-[editable path="Seed1"]
-[editable path="Seed2"]
-[editable path="Seed3"]
+[editable path="BuySeed2"]
+[editable path="BuySeed3"]

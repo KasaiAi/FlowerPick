@@ -27,18 +27,10 @@ func _ready():
 	$Water.paused = true
 
 func _process(_delta):
-	spriteUpdate()
-	
+	spriteUpdate() # Seria legal se não precisasse atualizar todo frame, mas não achei uma solução mais confiável
 	# Para debug
 	#if visible:
 	#	print('\n', "Water: ", $WaterMeter.value, '\n', "Growth: ", $GrowthMeter.value)
-	
-	# Ideal seria mudar isso só quando o mouse entra e sai da flor
-	#func _on_mouse_entered():
-	if growthStage == 4:
-		$mouseover.mouse_default_cursor_shape = 2
-	else:
-		$mouseover.mouse_default_cursor_shape = 0
 	
 	$GrowthMeter.value = fullyGrown - $Growth.time_left
 	$WaterMeter.value = $Water.time_left
@@ -51,32 +43,44 @@ func _on_area_exited(_area):
 	# Libera a variável
 	heldItem = null
 
+func _on_mouse_entered():
+	# Muda o cursor quando a flor tá madura
+	if growthStage == 4:
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+
+func _on_mouse_exited():
+	# Reseta o cursor 
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
 # Atribui a cor de uma flor
 func setColor():
 	match seedType:
-		"daisy":
+		"Daisy":
 			color = (Color(1, 1, 1, 1))
-		"buttercup":
+		"Buttercup":
 			color = (Color(1, 1, 0.153))
-		"tulip":
+		"Tulip":
 			color = (Color(0.255, 0.475, 1))
-		"rose":
+		"Rose":
 			color = (Color(0.882, 0.275, 0.259))
 	$Root/Bud2.self_modulate = color
 	$Root/Bud3.self_modulate = color
 	$Root/Bud4.self_modulate = color
 
 # Planta e define as informações de uma flor
-func plantVase():
-	emit_signal("planted", heldItem)
+func plantVase(seed):
+	# Reduzir sementes
+	seed.updateAmount()
+	# Mudar estado do vaso
 	occupied = true
 	$OccupiedIcon.visible = true
-	fullyGrown = heldItem.fullyGrown
+	# Importar dados da semente
+	fullyGrown = seed.fullyGrown
 	$GrowthMeter.max_value = fullyGrown
-	price = heldItem.price
-	seedType = heldItem.seedType
+	price = seed.price
+	seedType = seed.seedType
 	setColor()
-	
+	# Atualizar timers
 	$Growth.start(fullyGrown)
 	$Water.paused = false
 	if $Water.is_stopped() == false:
@@ -86,15 +90,19 @@ func plantVase():
 func waterVase():
 	$Water.start(10)
 	if occupied:
+		$Water.paused = false
 		$Growth.paused = false
 
 # Colhe a flor e reseta o vaso
 func harvestVase():
+	print("colheu")
+	print(growthStage)
 	$Growth.start(fullyGrown)
 	occupied = false
 	$OccupiedIcon.visible = false
 	spriteUpdate()
 	emit_signal("harvested", price, seedType)
+	growthStage = 0
 
 # Controlador do sprite da flor
 func spriteUpdate():
@@ -128,7 +136,7 @@ func _on_input_event(_viewport, _event, _shape_idx):
 		# Se tá segurando uma semente e o vaso tá vazio, planta a semente
 		elif heldItem.is_in_group("seeds"):
 			if not occupied:
-				plantVase()
+				plantVase(heldItem)
 		# Se tá segurando água, rega o vaso
 		elif heldItem.is_in_group("water"):
 			waterVase()
@@ -140,5 +148,6 @@ func _on_input_event(_viewport, _event, _shape_idx):
 			spriteUpdate()
 
 func pauseGrowth():
+	$GrowthMeter.value = fullyGrown - $Growth.time_left
 	$Water.paused = true
 	$Growth.paused = true
