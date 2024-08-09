@@ -22,7 +22,7 @@ Global="*res://Scripts/global.gd"
 [display]
 
 window/size/viewport_width=550
-window/size/viewport_height=630
+window/size/viewport_height=650
 window/handheld/orientation=1
 
 [filesystem]

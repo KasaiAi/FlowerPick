@@ -1,7 +1,12 @@
 extends Node2D
 
 func _ready():
+	var ownedVases = Global.Vases
 	for child in $Vases.get_children():
+		if ownedVases > 0:
+			child.owned = true
+			ownedVases -= 1
+		child.visible = child.owned
 		child.connect("harvested", _on_harvested)
 	
 	$UI/Money.text = "$ "+str(Global.Money)

@@ -39,18 +39,12 @@ func _on_area_entered(area):
 	# Salva o objeto que está sendo segurado
 	heldItem = area.get_parent()
 
-func _on_area_exited(_area):
+func _on_area_exited(area):
 	# Libera a variável
 	heldItem = null
-
-func _on_mouse_entered():
-	# Muda o cursor quando a flor tá madura
-	if growthStage == 4:
-		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
-
-func _on_mouse_exited():
-	# Reseta o cursor 
-	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+	if visible:
+		print(heldItem)
+		print(area)
 
 # Atribui a cor de uma flor
 func setColor():
@@ -95,14 +89,22 @@ func waterVase():
 
 # Colhe a flor e reseta o vaso
 func harvestVase():
-	print("colheu")
-	print(growthStage)
 	$Growth.start(fullyGrown)
 	occupied = false
 	$OccupiedIcon.visible = false
 	spriteUpdate()
 	emit_signal("harvested", price, seedType)
 	growthStage = 0
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+func _on_mouse_entered():
+	# Muda o cursor quando a flor tá madura
+	if growthStage == 4:
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+
+func _on_mouse_exited():
+	# Reseta o cursor 
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 # Controlador do sprite da flor
 func spriteUpdate():
@@ -146,6 +148,7 @@ func _on_input_event(_viewport, _event, _shape_idx):
 			$Growth.stop()
 			pauseGrowth()
 			spriteUpdate()
+			Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 
 func pauseGrowth():
 	$GrowthMeter.value = fullyGrown - $Growth.time_left

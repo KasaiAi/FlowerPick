@@ -3,15 +3,15 @@
 [ext_resource type="Script" path="res://Scripts/shop.gd" id="1_ey6x5"]
 [ext_resource type="Texture2D" uid="uid://bmuxchiuwxdf7" path="res://Assets/Sprites/background.jpg" id="2_gwhb5"]
 [ext_resource type="Script" path="res://Scripts/navigation.gd" id="2_x4q6q"]
-[ext_resource type="Script" path="res://Scripts/buy_item.gd" id="3_cevxn"]
-[ext_resource type="Texture2D" uid="uid://wkhbtxh47vya" path="res://Assets/Sprites/seed1.png" id="3_kkvfc"]
-[ext_resource type="PackedScene" uid="uid://bvhtrc0fq887a" path="res://Objects/vase.tscn" id="3_p1sp8"]
-[ext_resource type="PackedScene" uid="uid://cbfmrqva87e6f" path="res://Objects/seed.tscn" id="4_et3ax"]
+[ext_resource type="PackedScene" uid="uid://dcx5ubu0cm2nd" path="res://Objects/shop_item.tscn" id="3_y3c2f"]
+[ext_resource type="Texture2D" uid="uid://cu8hmdkdey42s" path="res://Assets/Sprites/seed2.png" id="4_jfyea"]
+[ext_resource type="Texture2D" uid="uid://wcf7gv30jp5j" path="res://Assets/Sprites/seed3.png" id="5_vrhj2"]
+[ext_resource type="Texture2D" uid="uid://dklbeo5jwox3p" path="res://Assets/Sprites/vase.png" id="6_oky3a"]
 [ext_resource type="Texture2D" uid="uid://s3j70c0c1n1h" path="res://Assets/Sprites/stage4-crown.png" id="8_hsllr"]
 [ext_resource type="Texture2D" uid="uid://cbvepbtj7h8qt" path="res://Assets/Sprites/stage4-base1.png" id="9_5hjnr"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3v5y3"]
-size = Vector2(40, 52)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ftsr"]
+size = Vector2(68, 66)
 
 [node name="Shop" type="Node2D"]
 script = ExtResource("1_ey6x5")
@@ -23,35 +23,35 @@ offset = Vector2(225, 315)
 texture = ExtResource("2_gwhb5")
 offset = Vector2(250, 315)
 
-[node name="BuySeed" type="Area2D" parent="."]
-position = Vector2(47, 121)
-script = ExtResource("3_cevxn")
-price = 1
+[node name="BuyVase" parent="." groups=["upgrades"] instance=ExtResource("3_y3c2f")]
+position = Vector2(71, 121)
+price = 15
+itemType = "vase"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BuySeed"]
-shape = SubResource("RectangleShape2D_3v5y3")
+[node name="CollisionShape2D" parent="BuyVase" index="0"]
+shape = SubResource("RectangleShape2D_4ftsr")
 
-[node name="Sprite2D" type="Sprite2D" parent="BuySeed"]
-texture = ExtResource("3_kkvfc")
+[node name="Sprite2D" parent="BuyVase" index="1"]
+texture = ExtResource("6_oky3a")
 
-[node name="Price" type="Label" parent="BuySeed"]
-offset_left = -20.0
-offset_top = 22.0
-offset_right = 20.0
-offset_bottom = 48.0
-horizontal_alignment = 1
+[node name="BuySeed" parent="." groups=["seeds"] instance=ExtResource("3_y3c2f")]
+position = Vector2(191, 121)
+itemType = "seed"
 
-[node name="BuySeed2" parent="." instance=ExtResource("4_et3ax")]
-position = Vector2(150, 129)
-script = null
+[node name="BuySeed2" parent="." groups=["seeds"] instance=ExtResource("3_y3c2f")]
+position = Vector2(303, 121)
+itemType = "seed"
 
-[node name="BuySeed3" parent="." instance=ExtResource("4_et3ax")]
-position = Vector2(250, 127)
-script = null
+[node name="Sprite2D" parent="BuySeed2" index="1"]
+texture = ExtResource("4_jfyea")
 
-[node name="BuyVase" parent="." instance=ExtResource("3_p1sp8")]
-position = Vector2(350, 170)
-script = null
+[node name="BuySeed3" parent="." groups=["seeds"] instance=ExtResource("3_y3c2f")]
+position = Vector2(418, 121)
+price = 2
+itemType = "seed"
+
+[node name="Sprite2D" parent="BuySeed3" index="1"]
+texture = ExtResource("5_vrhj2")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -157,10 +157,8 @@ offset_bottom = 629.0
 script = ExtResource("2_x4q6q")
 scene = "res://Scenes/nursery.tscn"
 
-[connection signal="input_event" from="BuySeed" to="BuySeed" method="_on_input_event"]
-[connection signal="mouse_entered" from="BuySeed" to="BuySeed" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="BuySeed" to="BuySeed" method="_on_mouse_exited"]
 [connection signal="pressed" from="UI/Button" to="UI/Button" method="_on_pressed"]
 
+[editable path="BuyVase"]
 [editable path="BuySeed2"]
 [editable path="BuySeed3"]
